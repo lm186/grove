@@ -229,12 +229,19 @@
     }
     
    
-    output = fitGroveML(W$D, XX, p = p, 
-                      tau_par = exp(tau), 
-                      eta_par = c(exp(eta.rho), rep(exp(eta.kap),p_len-1)), 
-                      gamma_par = c(0.5*exp(gamma.rho)/(1+exp(gamma.rho)),rep(0.5*exp(gamma.kap)/(1+exp(gamma.kap)),p_len-1)),
-                      init_state = init_state,
-                      nu = exp(nu), sigma = exp(sigma), alpha = alpha, beta = beta, transition_mode = transition_mode)
+    output = fitGroveML(W$D, 
+                        XX, 
+                        p = p, 
+                        tau_par = exp(tau), 
+                        eta_par = c(exp(eta.rho), rep(exp(eta.kap),p_len-1)), 
+                        gamma_par = c(0.5*exp(gamma.rho)/(1+exp(gamma.rho)),
+                                    rep(0.5*exp(gamma.kap)/(1+exp(gamma.kap)),p_len-1)),
+                        init_state = init_state,
+                        nu = exp(nu), 
+                        sigma = exp(sigma), 
+                        alpha = alpha, 
+                        beta = beta, 
+                        transition_mode = transition_mode)
     if(verbose == TRUE)
       print(-output$marginal_likelihood)
     return(-output$marginal_likelihood)
@@ -242,19 +249,31 @@
   
   if (nu != Inf) {
   
-    empirical_bayes = optim(par=c(log(tau_par),
-                                log(eta_par[1]), log(eta_par[2]),
-                                log(gamma_par/(0.5-gamma_par)), log(gamma_par/(0.5-gamma_par)),log(sigma_par),alpha_par,log(nu_par)), fn=fr,  method = method)
-  }
-  
-  else {
-    empirical_bayes = optim(par=c(log(tau_par), 
-                                  log(eta_par[1]), log(eta_par[2]),
-                                  log(gamma_par/(0.5-gamma_par)), log(gamma_par/(0.5-gamma_par)),log(sigma_par),alpha_par), fn=fr,  method = "Nelder-Mead")
+    empirical_bayes = optim(par = c(log(tau_par),
+                                    log(eta_par[1]), 
+                                    log(eta_par[2]),
+                                    log(gamma_par/(0.5-gamma_par)), 
+                                    log(gamma_par/(0.5-gamma_par)),
+                                    log(sigma_par),
+                                    alpha_par,
+                                    log(nu_par)), 
+                            fn = fr,  
+                            method = method)
+  } else {
+    empirical_bayes = optim(par = c(log(tau_par), 
+                                    log(eta_par[1]), 
+                                    log(eta_par[2]),
+                                    log(gamma_par/(0.5-gamma_par)), 
+                                    log(gamma_par/(0.5-gamma_par)),
+                                    log(sigma_par),
+                                    alpha_par), 
+                            fn = fr,  
+                            method = method)
   }
   
   tau_par = exp(empirical_bayes$par[1:p_len])
-  eta_par = c( exp(empirical_bayes$par[p_len+1]), rep(exp(empirical_bayes$par[p_len+2]),p_len-1))
+  eta_par = c(exp(empirical_bayes$par[p_len+1]), 
+              rep(exp(empirical_bayes$par[p_len+2]), p_len-1))
   gamma_par = c( 0.5*exp(empirical_bayes$par[p_len+3])/(1+exp(empirical_bayes$par[p_len+3])),
                  rep(0.5*exp(empirical_bayes$par[p_len+4])/(1+exp(empirical_bayes$par[p_len+4])),p_len-1))
   sigma_par = exp(empirical_bayes$par[p_len+5])
@@ -263,12 +282,19 @@
   if (nu_par != Inf) nu_par = exp(empirical_bayes$par[p_len+7])
   else nu_par = 999999999
   
-  ans = fitGrove(W$D, XX, p = p, 
-                    tau_par = tau_par, 
-                    eta_par = eta_par, 
-                    gamma_par = gamma_par, 
-                    init_state = init_state,
-                    nu = nu_par, sigma = sigma_par, alpha = alpha_par, beta = beta_par, n_samp = n_samp, transition_mode = transition_mode)
+  ans = fitGrove(W$D, 
+                 XX, 
+                 p = p, 
+                 tau_par = tau_par, 
+                 eta_par = eta_par, 
+                 gamma_par = gamma_par, 
+                 init_state = init_state,
+                 nu = nu_par, 
+                 sigma = sigma_par, 
+                 alpha = alpha_par, 
+                 beta = beta_par, 
+                 n_samp = n_samp, 
+                 transition_mode = transition_mode)
   ans$data$formula = formula
   ans$data$X = X
   ans$data$W = W
