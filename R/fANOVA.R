@@ -8,8 +8,6 @@
 #' @param beta Hyperparameter.
 #' @param eta Hyperparameter.
 #' @param gamma Hyperparameter.
-#' @param is.alpha.fixed If \code{TRUE}, alpha is fixed. If \code{FALSE} alpha is defined using Empirical Bayes 
-#' starting from value at \code{alpha}.
 #' @param is.eta.fixed If \code{TRUE}, eta is fixed. If \code{FALSE} eta is defined using Empirical Bayes.
 #' @param is.gamma.fixed If \code{TRUE}, gamma is fixed. If \code{FALSE} gamma is defined using Empirical Bayes.
 #' @param nu Hyperparameter.
@@ -26,13 +24,19 @@ fANOVA <- function(W,
                    formula, 
                    X, 
                    alpha = 0.5, 
-                   beta = 1, 
+                   beta = 1,
                    nu = 5, 
+                   eta,
+                   gamma,
                    n_samp = 500, 
                    transition_mode = "Markov", 
                    method ="Nelder-Mead") {
   
-  if (is.fixed.eta & !is.fixed.gamma & !is.fixed.alpha) {
+  if (is.fixed.eta & !is.fixed.gamma) {
+    if (missing(eta)) {
+      cat(paste0("ERROR: eta must be specified when",
+                 "is.fixed.eta = TRUE.\n"))
+    }
     output <- .groveEB.fixed.eta(W, 
                                  formula, 
                                  X, 
@@ -45,7 +49,11 @@ fANOVA <- function(W,
                                  transition_mode , 
                                  method)
     
-  } else if (is.fixed.eta & is.fixed.gamma & !is.fixed.alpha){
+  } else if (is.fixed.eta & is.fixed.gamma){
+    if ((missing(eta) | missing(gamma)) {
+      cat(paste0("ERROR: eta and gamma must be specified when",
+                 "is.fixed.eta = TRUE and is.fixed.gamma = TRUE.\n"))
+    }
     output <- .groveEB.fixed.eta.and.gamma(W, 
                                            formula, 
                                            X, 
@@ -59,19 +67,7 @@ fANOVA <- function(W,
                                            transition_mode, 
                                            method)
     
-  } else if (!is.fixed.eta & !is.fixed.gamma & is.fixed.alpha) {
-    output <- .groveEB.fixed.alpha(W, 
-                                    formula, 
-                                    X, 
-                                    alpha, 
-                                    beta, 
-                                    nu, 
-                                    n_samp, 
-                                    verbose = FALSE, 
-                                    transition_mode, 
-                                    method)
-    
-  } else if (!is.fixed.eta & !is.fixed.gamma & !is.fixed.alpha) {
+  } else if (!is.fixed.eta & !is.fixed.gamma) {
     output <- .groveEB(W, 
                         formula, 
                         X, 
@@ -83,9 +79,9 @@ fANOVA <- function(W,
                         transition_mode, 
                         method)
   } else {
-    str.1 <- "ERROR: The selected combination of is.fixed.eta,"
-    str.2 <- "is.fixed.gamma and is.fixed.alpha is not allowed."
-    print(paste(str.1, str.2))
+    str.1 <- "ERROR: The selected combination of is.fixed.eta and "
+    str.2 <- "is.fixed.gamma is not allowed.\n"
+    cat(paste0(str.1, str.2))
     return(0)
   }
   
