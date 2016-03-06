@@ -6,11 +6,11 @@
 #' @param W An object of class \code{DWT}.
 #' @param alpha Hyperparameter.
 #' @param beta Hyperparameter.
+#' @param nu Hyperparameter.
 #' @param eta Hyperparameter.
 #' @param gamma Hyperparameter.
 #' @param is.eta.fixed If \code{TRUE}, eta is fixed. If \code{FALSE} eta is defined using Empirical Bayes.
 #' @param is.gamma.fixed If \code{TRUE}, gamma is fixed. If \code{FALSE} gamma is defined using Empirical Bayes.
-#' @param nu Hyperparameter.
 #' @param n_samp Number of posterior draws.
 #' @param transition_mode Type of transition. The two options are \code{Markov} or \code{Independent}.
 #' @param method Method used for find maxmimum of marginal likelihood. 
