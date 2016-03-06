@@ -43,6 +43,7 @@ Denoise <- function(W,
                                                   nu, 
                                                   n_samp, 
                                                   FALSE,
+                                                  transition_mode,
                                                   method) 
     
   } else if (!is.alpha.fixed & is.beta.fixed) {
