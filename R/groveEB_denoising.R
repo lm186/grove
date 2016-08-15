@@ -8,21 +8,21 @@
                                verbose = FALSE,
                                transition_mode = "Markov",
                                method = "Nelder-Mead") {
-  if(class(W)!="DWT")
-  {
+  if(class(W)!="DWT") {
     print("ERROR: W should be a DWT object")
     return(0)
   }
 
-  if(strsplit(as.character(formula)[2],split="")[[1]][1] != 1)
-  {
+  if(strsplit(as.character(formula)[2],split="")[[1]][1] != 1)  {
     print("ERROR: formula should include an intercept.")
     return(0)
   }
 
-  if (transition_mode == "Markov") transition_mode = 1
-  else if (transition_mode == "Independent") transition_mode = 0
-  else {
+  if (transition_mode == "Markov") {
+    transition_mode = 1
+  } else if (transition_mode == "Independent") {
+    transition_mode = 0
+  } else {
     transition_mode = 1
     print("WARNING: Unrecognized transition mode. Default to Markov.")
   }
