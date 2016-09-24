@@ -7,14 +7,14 @@
                                 eta.kappa,
                                 gamma.rho,
                                 gamma.kappa,
-                                n_samp = 500, 
+                                n.samples = 500, 
                                 verbose = FALSE,
-                                transition_mode = "Markov",
+                                transition.mode = "Markov",
                                 method = "Nelder-Mead") {
   
   input <- .ReshapeInput(W,
                          formula,
-                         transition_mode,
+                         transition.mode,
                          X)
   
   kNuInf <- .GetNuInf()
@@ -48,11 +48,11 @@
                          sigma = sigma.internal, 
                          alpha = alpha.internal, 
                          beta = beta, 
-                         transition_mode = input$transition_mode)
+                         transition_mode = input$transition.mode)
     if (verbose == TRUE) {
-      print(- output$marginal_likelihood)
+      print(-output$marginal_likelihood)
     }    
-    return(- output$marginal_likelihood)
+    return(-output$marginal_likelihood)
   } 
   # Organize starting values in a vector.
   eb.par <- c(log(tau),
@@ -71,20 +71,20 @@
                                   fn = fr,  
                                   method = method))
   # Define final values for EB.
-  tau_par_final <- exp(empirical_bayes$par[1 : input$p_len])
-  eta_par_final <- c(exp(empirical_bayes$par[input$p_len + 1]), 
-                     rep(exp(empirical_bayes$par[input$p_len + 2]), 
+  tau_par_final <- exp(empirical_bayes[[1]][1 : input$p_len])
+  eta_par_final <- c(exp(empirical_bayes[[1]][input$p_len + 1]), 
+                     rep(exp(empirical_bayes[[1]][input$p_len + 2]), 
                          input$p_len - 1))
-  gamma_par_final <- c(0.5 * exp(empirical_bayes$par[input$p_len + 3]) / 
-                         (1 + exp(empirical_bayes$par[inpu$p_len + 3])),
-                       rep(0.5 * exp(empirical_bayes$par[input$p_len + 4]) /
-                             (1 + exp(empirical_bayes$par[input$p_len + 4])), 
+  gamma_par_final <- c(0.5 * exp(empirical_bayes[[1]][input$p_len + 3]) / 
+                         (1 + exp(empirical_bayes[[1]][input$p_len + 3])),
+                       rep(0.5 * exp(empirical_bayes[[1]][input$p_len + 4]) /
+                             (1 + exp(empirical_bayes[[1]][input$p_len + 4])), 
                            input$p_len - 1))
-  sigma_par_final <- exp(empirical_bayes$par[input$p_len + 5])
-  alpha_par_final <- empirical_bayes$par[input$p_len + 6]
+  sigma_par_final <- exp(empirical_bayes[[1]][input$p_len + 5])
+  alpha_par_final <- empirical_bayes[[1]][input$p_len + 6]
   beta_par_final <- beta
-  nu_par_final  <- ifelse(nu_par != Inf, 
-                          exp(empirical_bayes$par[input$p_len + 7]),
+  nu_par_final  <- ifelse(nu != Inf, 
+                          exp(empirical_bayes[[1]][input$p_len + 7]),
                           kNuInf)
   # Run model based on optimal hyperparameters.
   ans <- .DenoiseFinalRun(W, 
@@ -101,8 +101,8 @@
                           sigma_par_final,
                           alpha_par_final,
                           beta_par_final,
-                          n_samp,
-                          input$transition_mode)
+                          n.samples,
+                          input$transition.mode)
   return(ans)  
 }  
   
@@ -115,14 +115,14 @@
                                  eta.kappa,
                                  gamma.rho,
                                  gamma.kappa,
-                                 n_samp = 500, 
+                                 n.samples = 500, 
                                  verbose = FALSE,
-                                 transition_mode = "Markov",
+                                 transition.mode = "Markov",
                                  method = "Nelder-Mead") {
   
   input <- .ReshapeInput(W,
                          formula,
-                         transition_mode,
+                         transition.mode,
                          X)
   
   kNuInf <- .GetNuInf()
@@ -154,7 +154,7 @@
                          sigma = sigma.internal, 
                          alpha = alpha.internal, 
                          beta = beta, 
-                         transition_mode = input$transition_mode)
+                         transition_mode = input$transition.mode)
     if (verbose == TRUE) {
       print(- output$marginal_likelihood)
     }    
@@ -175,17 +175,17 @@
                                   fn = fr,  
                                   method = method))
   # Define final values for EB.
-  tau_par_final <- exp(empirical_bayes$par[1 : input$p_len])
-  eta_par_final <- c(exp(empirical_bayes$par[input$p_len + 1]), 
+  tau_par_final <- exp(empirical_bayes[[1]][1 : input$p_len])
+  eta_par_final <- c(exp(empirical_bayes[[1]][input$p_len + 1]), 
                      rep(eta.kappa, input$p_len - 1))
-  gamma_par_final <- c(0.5 * exp(empirical_bayes$par[input$p_len + 2]) / 
-                         (1 + exp(empirical_bayes$par[inpu$p_len + 2])),
+  gamma_par_final <- c(0.5 * exp(empirical_bayes[[1]][input$p_len + 2]) / 
+                         (1 + exp(empirical_bayes[[1]][input$p_len + 2])),
                        rep(gamma.kappa, input$p_len - 1))
-  sigma_par_final <- exp(empirical_bayes$par[input$p_len + 3])
-  alpha_par_final <- empirical_bayes$par[input$p_len + 4]
+  sigma_par_final <- exp(empirical_bayes[[1]][input$p_len + 3])
+  alpha_par_final <- empirical_bayes[[1]][input$p_len + 4]
   beta_par_final <- beta
-  nu_par_final  <- ifelse(nu_par != Inf, 
-                          exp(empirical_bayes$par[input$p_len + 5]),
+  nu_par_final  <- ifelse(nu != Inf, 
+                          exp(empirical_bayes[[1]][input$p_len + 5]),
                           kNuInf)
   # Run model based on optimal hyperparameters.
   ans <- .DenoiseFinalRun(W, 
@@ -202,7 +202,7 @@
                           sigma_par_final,
                           alpha_par_final,
                           beta_par_final,
-                          n_samp,
-                          input$transition_mode)
+                          n.samples,
+                          input$transition.mode)
   return(ans)  
 }  

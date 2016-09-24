@@ -1,5 +1,19 @@
-
-GenerateSyntheticAnova <- function(st_dev = 10, n_replicates = 5) {
+#' Generate synthetic functional ANOVA dataset
+#'
+#' This function generates a synthetic 3 factors functional ANOVA dataset.
+#'
+#' @param st.dev The standard deviation of the error.
+#' @param n.replicates The number of replicates for each factor combination.
+#' 
+#' @return An list with the data without noise, the data with noise and the 
+#' design matrix.
+#' @export
+#' @examples
+#' data <- GenerateSyntheticAnova(st.dev = 5, n.replicates = 10)
+#' ix <- 1
+#' plot(data$clean.Y[ix, ], type = "l", col = "red", ylab = "")
+#' lines(data$noisy.Y[ix, ], col = "blue")
+GenerateSyntheticAnova <- function(st.dev = 10, n.replicates = 5) {
   
   require(wavethresh)
   
@@ -24,7 +38,7 @@ GenerateSyntheticAnova <- function(st_dev = 10, n_replicates = 5) {
   X <- expand.grid(factorA = sex,
                    factorB = snp,
                    factorC = ttt)
-  X <- X[rep(1 : nrow(X), each = n.replicate), ]
+  X <- X[rep(1 : nrow(X), each = n.replicates), ]
   n_tot <- nrow(X)
   
   small.signal <- data.frame(factor.A.1 = factor.A.1, 
@@ -38,7 +52,7 @@ GenerateSyntheticAnova <- function(st_dev = 10, n_replicates = 5) {
   clean.Y <- matrix(NA, nrow = n_tot, ncol= m)
   noisy.Y <- matrix(NA, nrow = n_tot, ncol= m)
   
-  # frml <- formula(~ 1 + factorA + factorB + factorC)
+  frml <- formula(~ 1 + factorA + factorB + factorC)
   Z <- model.matrix(frml, X)
   
   for (i in 1 : nrow(X)) { # for each factor combination
@@ -49,7 +63,7 @@ GenerateSyntheticAnova <- function(st_dev = 10, n_replicates = 5) {
       (small.signal$factor.B.3 - small.signal$factor.B.1 ) * Z[i, "factorBbb"] +
       small.signal$factor.C.1 + 
       (small.signal$factor.C.2 - small.signal$factor.C.1 ) * Z[i, "factorCU"]
-    noisy.Y[i, ] <- clean.Y[i, ] + rnorm(m, 0, st_dev)
+    noisy.Y[i, ] <- clean.Y[i, ] + rnorm(m, 0, st.dev)
   }
   
   return(list(noisy.Y = noisy.Y,

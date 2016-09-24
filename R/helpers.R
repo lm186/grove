@@ -1,6 +1,6 @@
 .ReshapeInput <- function(W,
                           formula,
-                          transition_mode,
+                          transition.mode,
                           X) {
   # Reshape input parameters for functions Denoise and FAnova. 
 
@@ -12,12 +12,12 @@
     stop("formula should include an intercept.")
   }
   
-  if (transition_mode == "Markov") {
-    transition_mode <- 1
-  } else if (transition_mode == "Independent") {
-    transition_mode <- 0
+  if (transition.mode == "Markov") {
+    transition.mode <- 1
+  } else if (transition.mode == "Independent") {
+    transition.mode <- 0
   } else {
-    transition_mode <- 1
+    transition.mode <- 1
     print("WARNING: Unrecognized transition mode. Default to Markov.")
   }
   
@@ -34,7 +34,7 @@
               p_len = p_len,
               C_hat = C_hat,
               init_state = init_state,
-              transition_mode = transition_mode))
+              transition.mode = transition.mode))
 }
 
 .InitSigmaPar <- function(W) {
@@ -87,8 +87,8 @@
                              sigma_par,
                              alpha_par,
                              beta_par,
-                             n_samp,
-                             transition_mode) {
+                             n.samples,
+                             transition.mode) {
   ans <- fitGrove(W$D, 
                   XX, 
                   p = p, 
@@ -100,8 +100,8 @@
                   sigma = sigma_par, 
                   alpha = alpha_par, 
                   beta = beta_par, 
-                  n_samp = n_samp, 
-                  transition_mode = transition_mode)
+                  n_samp = n.samples, 
+                  transition_mode = transition.mode)
   ans$data$formula <- formula
   ans$data$X <- X
   ans$data$W <- W

@@ -7,28 +7,29 @@
 #' @param alpha Hyperparameter.
 #' @param nu Hyperparameter controlling variance heterogeneity. If \code(Inf),
 #' then the variance is identical for all nodes.
-#' @param n_samp Number of posterior draws.
-#' @param transition_mode Type of transition. 
+#' @param n.samples Number of posterior draws.
+#' @param transition.mode Type of transition. 
 #' The two options are \code{Markov} or \code{Independent}.
 #' @param method Method used for find maxmimum of marginal likelihood. 
 #' 
 #' @return An object of class \code{grove}.
 #' @export
 #' @examples
-#' a <- 'TO DO'
-
+#' data <- DJ.EX(n = 512, noisy = TRUE, rsnr = 5)$doppler
+#' W <- DWT(data)
+#' ans <- Denoise(W)
 Denoise <- function(W, 
                     alpha = 0.5, 
                     nu = 5, 
-                    n_samp = 500, 
-                    transition_mode = "Markov",
+                    n.samples = 500, 
+                    transition.mode = "Markov",
                     method = "Nelder-Mead") {
   
-  formula <- formula(~ 1)
-  X <- model.matrix(frml, matrix(1, ncol = 1, nrow = nrow(W)))
-   
+  frml <- formula(~ 1)
+  X <- data.frame(rep(1, nrow(W$D)))
+  
   output <- .groveEB.all.random(W = W, 
-                                formula = formula, 
+                                formula = frml, 
                                 X = X, 
                                 alpha = alpha, 
                                 nu = nu, 
@@ -36,9 +37,9 @@ Denoise <- function(W,
                                 eta.kappa = .InitEtaKappaPar(),
                                 gamma.rho = .InitGammaRhoPar(),
                                 gamma.kappa = .InitGammaKappaPar(),
-                                n_samp = n_samp, 
+                                n.samples = n.samples, 
                                 verbose = FALSE,
-                                transition_mode = transition_mode,
+                                transition.mode = transition.mode,
                                 method = method)
   return(output)
 }  

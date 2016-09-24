@@ -9,19 +9,3 @@ fitGroveML <- function(D, X, p, tau_par, eta_par, gamma_par, init_state, nu, sig
     .Call('grove_fitGroveML', PACKAGE = 'grove', D, X, p, tau_par, eta_par, gamma_par, init_state, nu, sigma0, alpha, beta, transition_mode)
 }
 
-rcpparma_hello_world <- function() {
-    .Call('grove_rcpparma_hello_world', PACKAGE = 'grove')
-}
-
-rcpparma_outerproduct <- function(x) {
-    .Call('grove_rcpparma_outerproduct', PACKAGE = 'grove', x)
-}
-
-rcpparma_innerproduct <- function(x) {
-    .Call('grove_rcpparma_innerproduct', PACKAGE = 'grove', x)
-}
-
-rcpparma_bothproducts <- function(x) {
-    .Call('grove_rcpparma_bothproducts', PACKAGE = 'grove', x)
-}
-
