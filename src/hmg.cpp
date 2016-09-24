@@ -62,7 +62,7 @@ vec HMG::init_init_state(vec input_init_state)
 // organize data on a tree
 std::vector<mat> HMG::init_data(mat D)
 {
-  std::vector<mat> data;
+  std::vector<mat> data(J);
   int j, k, it=0;
   for(j=0; j<J; j++)
   {
@@ -72,7 +72,7 @@ std::vector<mat> HMG::init_data(mat D)
       M.col(k) = D.col(it);
       it++;
     }
-    data.push_back(M);      
+    data[j] = M;      
   }
   return data;    
 }  
@@ -81,7 +81,7 @@ std::vector<mat> HMG::init_data(mat D)
 std::vector<mat> HMG::init_marg()
 {
   int j, s;
-  std::vector<mat> data;
+  std::vector<mat> data(J);
 
   for(j=0; j<J; j++)
   {
@@ -91,7 +91,7 @@ std::vector<mat> HMG::init_marg()
       for(s=0; s < tot_states; s++)
         M(s,k) = MargLike(j, k, s);
     }
-    data.push_back(M);      
+    data[j] = M;      
   }
   return data;
 }
@@ -231,11 +231,11 @@ double HMG::prior_trans_elem(int j,  int s, int t)
 // compute marginal likelihood recursively
 std::vector<mat> HMG::update_marg() 
 {
-  std::vector<mat> output;    
+  std::vector<mat> output(J);    
   for (int j=0; j<J; j++) 
   { 
     mat M(tot_states, (int)pow(2,j));    
-    output.push_back(M);
+    output[j] = M;
   }
       
   for (int j=(J-1); j>=0; j--) 
@@ -283,11 +283,11 @@ std::vector<mat> HMG::update_marg()
 // compute posterior transition probabilities  
 std::vector<cube> HMG::post_trans()
 {
-  std::vector<cube> output;    
+  std::vector<cube> output(J);    
   for (int j=0; j<J; j++) 
   { 
     cube M(tot_states, tot_states, (int)pow(2,j));    
-    output.push_back(M);
+    output[j] = M;
   }
       
   for (int j=(J-1); j>=0; j--) 
@@ -309,11 +309,11 @@ std::vector<cube> HMG::post_trans()
 // compute prior transition probabilities  
 std::vector<mat> HMG::prior_trans()
 {
-  std::vector<mat> output;    
+  std::vector<mat> output(J);    
   for (int j=0; j<J; j++) 
   { 
     mat M(tot_states, tot_states);    
-    output.push_back(M);
+    output[j] = M;
   }
       
   for (int j=(J-1); j>=0; j--) 
@@ -381,11 +381,11 @@ double HMG::post_trans_elem(int j, int k, int s, int t)
 // compute posterior state probabilities
 std::vector<mat> HMG::post_state()
 {
-  std::vector<mat> output;    
+  std::vector<mat> output(J);    
   
   mat M(tot_states,1);
   M.col(0) = PostTrans.at(0).slice(0).t() * initial_state;
-  output.push_back(M);
+  output[0] = M;
   
   for (int j=1; j<J; j++) 
   { 
@@ -395,7 +395,7 @@ std::vector<mat> HMG::post_state()
       M.col(k) = PostTrans.at(j).slice(k).t() * output.at(j-1).col((int)k/2);
     }
     // cout << M << endl << endl;
-    output.push_back(M);
+    output[j] = M;
   }
   
   return output;
@@ -405,11 +405,11 @@ std::vector<mat> HMG::post_state()
 // compute prior marginal alternative probabilities
 std::vector<mat> HMG::prior_state()
 {
-  std::vector<mat> output;    
+  std::vector<mat> output(J);    
   
   mat M(tot_states,1);
   M.col(0) = PriorTrans.at(0).t() * initial_state;
-  output.push_back(M);
+  output[0] = M;
   
   for (int j=1; j<J; j++) 
   { 
@@ -419,7 +419,7 @@ std::vector<mat> HMG::prior_state()
       M.col(k) = PriorTrans.at(j).t() * output.at(j-1).col((int)k/2);
     }
     // cout << M << endl << endl;
-    output.push_back(M);
+    output[j] = M;
   }
   
   return output;
@@ -516,11 +516,11 @@ vec HMG::get_prior_null(vec init_state)
 // get marginal posterior probability of hidden states
 std::vector<NumericMatrix> HMG::get_post_states()
 {
-  std::vector<NumericMatrix> output;
+  std::vector<NumericMatrix> output(J);
   for(int j=0; j<J; j++)
   {
     NumericMatrix M_new = as<NumericMatrix>(wrap(PostStates.at(j)));
-    output.push_back(M_new);
+    output[j] = M_new;
   }
   return output;
 }
@@ -528,38 +528,36 @@ std::vector<NumericMatrix> HMG::get_post_states()
 // get marginal prior probability of hidden states
 std::vector<NumericMatrix> HMG::get_prior_states()
 {
-  std::vector<NumericMatrix> output;
+  std::vector<NumericMatrix> output(J);
   for(int j=0; j<J; j++)
   {
     NumericMatrix M_new = as<NumericMatrix>(wrap(PriorStates.at(j)));
-    output.push_back(M_new);
+    output[j] = M_new;
   }
   return output;
 }
 
 
-std::vector<NumericMatrix> HMG::Sample_States(int n_samples)
-{
-  std::vector<NumericMatrix> output;    
+std::vector<NumericMatrix> HMG::Sample_States(int n_samples) {
+  std::vector<NumericMatrix> output(J);    
   NumericMatrix v(n_samples, 1);
   vec probs = PostTrans.at(0).slice(0).t() * initial_state;    
-  for(int i=0; i<n_samples; i++)
+  for (int i=0; i<n_samples; i++) {
     v(i,0) = sampling(tot_states, probs);
-  output.push_back(v);
-
-  for(int j=1; j<J; j++)
-  {
+  }
+  output[0] = v;
+  int it = 0;
+  for(int j=1; j<J; j++) {
     NumericMatrix v(n_samples, pow(2,j)); 
-    for(int k=0; k<pow(2,j); k++)
-    {
+    for(int k=0; k<pow(2,j); k++) {
       NumericMatrix temp = output.at(j-1);
-      for(int i=0; i<n_samples; i++)
-      {
-        probs = vectorise(PostTrans.at(j).slice(k).row( temp(i,k/2) ));
+      for(int i=0; i<n_samples; i++) {
+        probs = vectorise(PostTrans.at(j).slice(k).row(temp(i,k/2)));
         v(i,k) = sampling(tot_states, probs);
       }
-    }
-    output.push_back(v);
+    } 
+    it++;
+    output[it] = v;
   }    
   return output;    
 }  
@@ -567,9 +565,9 @@ std::vector<NumericMatrix> HMG::Sample_States(int n_samples)
 
 std::vector<mat> HMG::Count_Sample_States(std::vector<NumericMatrix> StatesSample)
 {
-  std::vector<mat> output;
+  std::vector<mat> output(J);
   int n_samples = StatesSample.at(0).nrow();
-  for(unsigned j=0; j< StatesSample.size(); j++)
+  for(unsigned j=0; j < J; j++)
   {
     mat v(tot_states, pow(2,j)); v.zeros();
     NumericMatrix temp = StatesSample.at(j);
@@ -578,7 +576,7 @@ std::vector<mat> HMG::Count_Sample_States(std::vector<NumericMatrix> StatesSampl
       for(int k=0; k<pow(2,j); k++)
         v(temp(i,k),k)++;
     }
-    output.push_back(v);
+    output[j] = v;
   }
   return output;
 }
@@ -616,7 +614,7 @@ std::vector<cube>  HMG::post_sample_coeff(int n_samp)
 {
   std::vector<NumericMatrix> StatesSample = Sample_States(n_samp);
   std::vector<mat> Counts = Count_Sample_States(StatesSample);
-  std::vector<cube> output;
+  std::vector<cube> output(J);
   for(int j=0; j<J; j++)
   {
     cube NodeSamples(n_samp, sum(p), pow(2,j));
@@ -633,7 +631,7 @@ std::vector<cube>  HMG::post_sample_coeff(int n_samp)
         }
       }
     }
-    output.push_back(NodeSamples);
+    output[j] = NodeSamples;
   }
   return output;
 }

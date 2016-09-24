@@ -40,7 +40,8 @@ plotFun <- function(data,
   # compute global ci
   if (band.type %in% c("global", "both")) {
     alpha <- p[1] + 1 - p[3]
-    # For each time t, compute the distance of each curve normalized wrt to variance at t.
+    # For each time t, compute the distance of each curve normalized 
+    # wrt to variance at t.
     dist.matrix <- apply(data, 2, function(x) {
       ((x - mean(x)) / sd(x)) ^ 2
     })
@@ -56,7 +57,7 @@ plotFun <- function(data,
       dist.matrix[worst.elem[1, 1], ] <- 0
     }  
     # Compute range for the remaining curves.
-    global.cis <- apply(data[-removed.curves, ], 2, function(x) {range(x)})
+    global.cis <- apply(data[-removed.curves, ], 2, function(x) { range(x) })
   } 
   
   x <- seq(1, ncol(point.wise.cis))

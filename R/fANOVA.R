@@ -1,18 +1,15 @@
 #' Bayesian functional ANOVA
 #'
-#' This function carries out Bayesian functional ANOVA using the Normal Inverse Gamma Markov Grove method of 
-#' Ma and Soriano (2016).
+#' This function carries out Bayesian functional ANOVA using the 
+#' Normal Inverse Gamma Markov Grove method of Ma and Soriano (2016).
 #'
 #' @param W An object of class \code{DWT}.
-#' @param alpha Hyperparameter.
-#' @param beta Hyperparameter.
-#' @param nu Hyperparameter.
-#' @param eta Hyperparameter.
-#' @param gamma Hyperparameter.
-#' @param is.eta.fixed If \code{TRUE}, eta is fixed. If \code{FALSE} eta is defined using Empirical Bayes.
-#' @param is.gamma.fixed If \code{TRUE}, gamma is fixed. If \code{FALSE} gamma is defined using Empirical Bayes.
+#' @param TODO
+#' @param is.kappa.fixed If \code{TRUE}, gamma_kappa and eta_kappa are fixed. 
+#' If \code{FALSE} gamma_kappa and eta_kappa are defined using Empirical Bayes.
 #' @param n_samp Number of posterior draws.
-#' @param transition_mode Type of transition. The two options are \code{Markov} or \code{Independent}.
+#' @param transition_mode Type of transition. The two options are \code{Markov} 
+#' or \code{Independent}.
 #' @param method Method used for find maxmimum of marginal likelihood. 
 #' 
 #' @return An object of class \code{grove}.
@@ -23,68 +20,42 @@
 fANOVA <- function(W, 
                    formula, 
                    X, 
-                   alpha = 0.5, 
-                   beta = 1,
                    nu = 5, 
-                   eta,
-                   gamma,
+                   is.kappa.fixed = FALSE,
+                   gamma.kappa = 0.3,
+                   eta.kappa = 0.1,
                    n_samp = 500, 
                    transition_mode = "Markov", 
-                   method ="Nelder-Mead") {
+                   method = "Nelder-Mead") {
   
-  if (is.fixed.eta & !is.fixed.gamma) {
-    if (missing(eta)) {
-      cat(paste0("ERROR: eta must be specified when",
-                 "is.fixed.eta = TRUE.\n"))
-    }
-    output <- .groveEB.fixed.eta(W, 
-                                 formula, 
-                                 X, 
-                                 alpha,
-                                 beta,
-                                 nu, 
-                                 eta, 
-                                 n_samp, 
-                                 verbose = FALSE, 
-                                 transition_mode , 
-                                 method)
-    
-  } else if (is.fixed.eta & is.fixed.gamma){
-    if ((missing(eta) | missing(gamma)) {
-      cat(paste0("ERROR: eta and gamma must be specified when",
-                 "is.fixed.eta = TRUE and is.fixed.gamma = TRUE.\n"))
-    }
-    output <- .groveEB.fixed.eta.and.gamma(W, 
-                                           formula, 
-                                           X, 
-                                           alpha,
-                                           beta, 
-                                           nu, 
-                                           eta, 
-                                           gamma, 
-                                           n_samp, 
-                                           verbose = FALSE, 
-                                           transition_mode, 
-                                           method)
-    
-  } else if (!is.fixed.eta & !is.fixed.gamma) {
-    output <- .groveEB(W, 
-                        formula, 
-                        X, 
-                        alpha, 
-                        beta, 
-                        nu, 
-                        n_samp, 
-                        verbose = FALSE, 
-                        transition_mode, 
-                        method)
+  if (is.kappa.fixed) {
+    output <- .groveEB.fixed.kappa(W = W, 
+                                   formula = formula, 
+                                   X = X, 
+                                   alpha = .InitAlphaPar(),
+                                   nu = nu, 
+                                   eta.rho = .InitEtaRhoPar(),
+                                   eta.kappa = eta.kappa,
+                                   gamma.rho = .InitGammaRhoPar(),
+                                   gamma.kappa = gamma.kappa,
+                                   n_samp = n_samp, 
+                                   verbose = FALSE,
+                                   transition_mode = transition_mode,
+                                   method = method)
   } else {
-    str.1 <- "ERROR: The selected combination of is.fixed.eta and "
-    str.2 <- "is.fixed.gamma is not allowed.\n"
-    cat(paste0(str.1, str.2))
-    return(0)
+    output <- .groveEB.all.random(W = W, 
+                                  formula = formula, 
+                                  X = X, 
+                                  alpha = .InitAlphaPar(), 
+                                  nu = nu, 
+                                  eta.rho = .InitEtaRhoPar(),
+                                  eta.kappa = eta.kappa,
+                                  gamma.rho = .InitGammaRhoPar(),
+                                  gamma.kappa = gamma.kappa,
+                                  n_samp = n_samp, 
+                                  verbose = FALSE,
+                                  transition_mode = transition_mode,
+                                  method = method)
   }
-  
   return(output)
-  
 }
