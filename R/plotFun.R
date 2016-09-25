@@ -1,20 +1,25 @@
 #' Function to plot the denoised signal
 #'
-#' This function plot the denoised signal
+#' This function plot the credible bounds of the denoised signal.
 #'
-#' @param data
-#' @param p
-#' @param main
-#' @param col
-#' @param type
-#' @param xlab
-#' @param ylab
-#' @param ylim
+#' @param data Matrix of posterior samples.
+#' @param p Vector with the lower, center and upper quantile. 
+#' @param main The main title of the plot.
+#' @param col The color of the point estimate.
+#' @param type The type of line of the point estimate.
+#' @param xlab The label of the x-axis.
+#' @param ylab The label of the y-axis.
+#' @param ylim The range of the y-axis.
 #' 
 #' @return A plot.
 #' @export
 #' @examples
-#' a <- 'TO DO'
+#' data <- DJ.EX(n = 512, noisy = TRUE, rsnr = 5)$doppler
+#' W <- DWT(data)
+#' ans <- Denoise(W)
+#' denoised.data <- invDWT(ans)
+#' plotFun(denoised.data)
+#' plotFun(denoised.data, band.type = "both")
 
 plotFun <- function(data, 
                     p = c(0.025, .5, 0.975), 
@@ -24,13 +29,12 @@ plotFun <- function(data,
                     type = 'l', 
                     ylab = "", 
                     xlab = "", 
-                    ylim = NULL,
-                    return.range = FALSE) {
+                    ylim = NULL) {
   
   if (length(p) != 3) {
     stop("p should have 3 elements.")
   }
-  
+  p <- sort(p)
   if (!(band.type %in% c("global", "pointwise", "both"))) {
     warning("band.type not recognized. Used default value.")
     band.type <- "pointwise"
@@ -90,11 +94,4 @@ plotFun <- function(data,
             lwd = 2)
   } 
   lines(x, point.wise.cis[2, ], col = "blue", lwd = 2)
-  if (return.range) {
-    if (band.type %in% c("global", "both")) {    
-      return(range(global.cis))
-    } else {
-      return(range(point.wise.cis))
-    }    
-  }
 }

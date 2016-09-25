@@ -113,14 +113,6 @@
                               sigma = sigma_par, 
                               nu = nu_par, 
                               alpha = alpha_par)
-  
-  # Get the exact posterior mean of the z_{j,k}'s
-  # Is this meaningful only for donoise or more generally?
-  pmaps <- t(unlist(lapply(ans$samples$S, function(x) {x[2, ]})))
-  tau.j.vec <- rep(2 ^ ( - alpha_par * (0 : (W$J - 1))) , 2 ^ (0 : (W$J - 1))) * 
-    ans$hyperparameters$tau[1]
-  ans$D.post.mean.z <- 1 / (1 + 1 / (t(tau.j.vec) * nrow(W$D))) * W$D
-    
   class(ans) <- "grove"
   return( ans )
 }

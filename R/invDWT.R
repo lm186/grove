@@ -1,6 +1,6 @@
-#' Inverse discrete wavelet transform  
+#' @title Inverse discrete wavelet transform  
 #'
-#' This function performs the inverse discrete wavelet transform.
+#' @description This function performs the inverse discrete wavelet transform.
 #'
 #' @param grove.obj An object of class \code{grove}.
 #' @param x A vector with the value of the predictor. 
@@ -15,12 +15,12 @@
 #' data <- DJ.EX(n = 512, noisy = TRUE, rsnr = 5)$doppler
 #' W <- DWT(data)
 #' ans <- Denoise(W)
-#' denoised.data <- invDWT(ans)
+#' denoised.data <- InvDWT(ans)
 #' plot(data, type = "l")
 #' lines(denoised.data[1, ], col = "red")
 
-invDWT <- function(grove.obj, 
-                   x = 1, # TODO: change for anova 
+InvDWT <- function(grove.obj, 
+                   x = NULL, # TODO: change for anova 
                    include.C = TRUE, 
                    sample.C = FALSE) {
   
@@ -49,9 +49,13 @@ invDWT <- function(grove.obj,
   nu0 <- 10
   
   for (i in 1:n_samp) {
-    if (grove.obj$data$X == 1) {
+    if ((nrow(grove.obj$data$X) == 1) && (ncol(grove.obj$data$X) == 1)) {
+      x <- 1
       temp$D <- rev(D[, , i])
     } else {
+      if (is.null(x)) {
+        x <- c(1, rep(0, dim(D)[1] - 1))
+      }
       temp$D <- rev(t(D[, , i]) %*% x)
     }
     
