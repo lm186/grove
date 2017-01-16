@@ -13,11 +13,18 @@ devtools::install_github('grove', 'jacsor')
 ```
 
 ### Use
-There are xx functions in this package, and their descriptions are provided in the help files
+There are 7 functions in this package, and their descriptions are provided in the help files.
 
 ```S
-to do
+W <- DWT(data)
+ans <- Denoise(W)
+ans <- FAnova(W, X, ~ 1 + factorA + factorB)
+data <- GenerateSyntheticAnova()
+denoised.data <- InvDWT(ans)
+PlotFun(denoised.data)
+PlotStates(ans, block = "factorA")
 ```
 
 ### Reference
-To do 
+Ma L. and Soriano J. (2017). Efficient functional ANOVA through wavelet-domain 
+Markov groves. JASA (To appear).
