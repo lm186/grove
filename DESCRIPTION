@@ -2,10 +2,11 @@ Package: grove
 Type: Package
 Title: Wavelet functional ANOVA through Markov groves
 Version: 1.0
-Date: 2016-03-01
+Date: 2017-01-16
 Author: Jacopo Soriano and Li Ma
 Maintainer: Jacopo Soriano <jsoriano.stat@gmail.com>
-Description: Functional denoising and functional ANOVA through wavelet-domain Markov groves.
+Description: Functional denoising and functional ANOVA through wavelet-domain 
+  Markov groves.
 License: GPL (>= 3)
 Imports: 
   Rcpp (>= 0.11.2), 

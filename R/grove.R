@@ -1,10 +1,8 @@
 #' grove: A package for functional denoising and functional ANOVA
 #'
-#'The grove package does this and that.
+#'The grove package implements a wavelet-domain Bayesian hierarchical model for
+#'function analysis of variance. 
 #' 
-#' @section Grove functions:
-#' The DWT functions ...
-#'
 #' @docType package
 #' @name grove
 NULL

@@ -10,24 +10,27 @@ DWT(data, filter.number = 10, family = "DaubLeAsymm")
 \item{data}{A matrix of data, where each row is an observation.
 The number of columns must be a power of two.}
 
-\item{filter.number}{The smoothness of the wavelet to use in the decomposition.}
+\item{filter.number}{The smoothness of the wavelet to use in the
+decomposition.}
 
-\item{family}{The family of wavelets. The two most common options are \code{DaubExPhase}
-and \code{DaubLeAsymm}.}
+\item{family}{The family of wavelets. The two most common options
+are \code{DaubExPhase} and \code{DaubLeAsymm}.}
 
 \item{C}{Vector of sets of successively smoothed data.}
 
-\item{D}{Matrix of sets of wavelet coefficients at different resolution levels.
-Each row represents an observation.}
+\item{D}{Matrix of sets of wavelet coefficients at different resolution
+levels. Each row represents an observation.}
 
 \item{J}{The number of levels.}
 
-\item{filter.number}{The smoothness of the wavelet to use in the decomposition.}
+\item{filter.number}{The smoothness of the wavelet to use in the
+decomposition.}
 
 \item{family}{The family of wavelets.}
 }
 \value{
-A \code{DWT} object. This object is a list with the following components:
+A \code{DWT} object. This object is a list with the following
+components:
 }
 \description{
 This function performs the discrete wavelet transform (DWT) according to
@@ -37,6 +40,7 @@ Mallat's pyramidal algorithm (Mallat, 1989).
 See function \code{wd} from \code{wavethresh} for more details.
 }
 \examples{
-a <- 'TO DO'
+data <- GenerateSyntheticAnova(st.dev = 5, n.replicates = 10)
+W <- DWT(data$noisy.Y)
 }
 

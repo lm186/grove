@@ -4,29 +4,21 @@
 \alias{Denoise}
 \title{Bayesian wavelet denoising}
 \usage{
-Denoise(W, alpha = 0.5, beta = 1, is.alpha.fixed = TRUE,
-  is.beta.fixed = TRUE, nu = 5, n_samp = 500,
-  transition_mode = "Markov", method = "Nelder-Mead")
+Denoise(W, alpha = 0.5, nu = 5, n.samples = 500,
+  transition.mode = "Markov", method = "Nelder-Mead")
 }
 \arguments{
 \item{W}{An object of class \code{DWT}.}
 
 \item{alpha}{Hyperparameter.}
 
-\item{beta}{Hyperparameter.}
+\item{nu}{Hyperparameter controlling variance heterogeneity. If \code{Inf},
+then the variance is identical for all nodes.}
 
-\item{is.alpha.fixed}{If \code{TRUE}, alpha is fixed. If \code{FALSE} alpha is defined using Empirical Bayes
-starting from value at \code{alpha}.}
+\item{n.samples}{Number of posterior draws.}
 
-\item{is.beta.fixed}{If \code{TRUE}, beta is fixed. If \code{FALSE} beta is defined using Empirical Bayes
-starting from value at \code{beta}. If \code{is.alpha.fixed = TRUE},
-then also \code{is.beta.fixed} must be \code{TRUE}.}
-
-\item{nu}{Hyperparameter.}
-
-\item{n_samp}{Number of posterior draws.}
-
-\item{transition_mode}{Type of transition. The two options are \code{Markov} or \code{Independent}.}
+\item{transition.mode}{Type of transition.
+The two options are \code{Markov} or \code{Independent}.}
 
 \item{method}{Method used for find maxmimum of marginal likelihood.}
 }
@@ -34,10 +26,12 @@ then also \code{is.beta.fixed} must be \code{TRUE}.}
 An object of class \code{grove}.
 }
 \description{
-This function carries out Bayesian wavelet denoising using the Normal Inverse Gamma Markov Tree method of
-Ma and Soriano (2016).
+This function carries out Bayesian wavelet denoising using the Normal
+Inverse Gamma Markov Tree method of Ma and Soriano (2016).
 }
 \examples{
-a <- 'TO DO'
+data <- DJ.EX(n = 512, noisy = TRUE, rsnr = 5)$doppler
+W <- DWT(data)
+ans <- Denoise(W)
 }
 

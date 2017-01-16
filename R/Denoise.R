@@ -5,7 +5,7 @@
 #'
 #' @param W An object of class \code{DWT}.
 #' @param alpha Hyperparameter.
-#' @param nu Hyperparameter controlling variance heterogeneity. If \code(Inf),
+#' @param nu Hyperparameter controlling variance heterogeneity. If \code{Inf},
 #' then the variance is identical for all nodes.
 #' @param n.samples Number of posterior draws.
 #' @param transition.mode Type of transition. 
