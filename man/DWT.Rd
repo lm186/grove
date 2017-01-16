@@ -15,18 +15,6 @@ decomposition.}
 
 \item{family}{The family of wavelets. The two most common options
 are \code{DaubExPhase} and \code{DaubLeAsymm}.}
-
-\item{C}{Vector of sets of successively smoothed data.}
-
-\item{D}{Matrix of sets of wavelet coefficients at different resolution
-levels. Each row represents an observation.}
-
-\item{J}{The number of levels.}
-
-\item{filter.number}{The smoothness of the wavelet to use in the
-decomposition.}
-
-\item{family}{The family of wavelets.}
 }
 \value{
 A \code{DWT} object. This object is a list with the following
@@ -37,7 +25,7 @@ This function performs the discrete wavelet transform (DWT) according to
 Mallat's pyramidal algorithm (Mallat, 1989).
 }
 \details{
-See function \code{wd} from \code{wavethresh} for more details.
+See function \code{wd} from package \code{wavethresh} for more details.
 }
 \examples{
 data <- GenerateSyntheticAnova(st.dev = 5, n.replicates = 10)

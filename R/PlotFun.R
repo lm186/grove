@@ -4,6 +4,8 @@
 #'
 #' @param data Matrix of posterior samples.
 #' @param p Vector with the lower, center and upper quantile. 
+#' @param band.type Type of credible intervals. The options are: 
+#' \code{pointwise}, \code{gloabl} or \code{global}.
 #' @param main The main title of the plot.
 #' @param col The color of the point estimate.
 #' @param type The type of line of the point estimate.
@@ -14,7 +16,7 @@
 #' @return A plot.
 #' @export
 #' @examples
-#' data <- DJ.EX(n = 512, noisy = TRUE, rsnr = 5)$doppler
+#' data <- wavethresh::DJ.EX(n = 512, noisy = TRUE, rsnr = 5)$doppler
 #' W <- DWT(data)
 #' ans <- Denoise(W)
 #' denoised.data <- InvDWT(ans)

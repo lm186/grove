@@ -128,8 +128,8 @@ uvec HMG::active_columns(int s)
 // extract submatrix according to active factors
 mat HMG::DesignMatrix(int s)
 {
-  if(s == 0)
-    cout << "error - DesignMatrix s==0" << endl;    
+  // if(s == 0)
+  //   cout << "error - DesignMatrix s==0" << endl;    
   uvec ac = active_columns(s);  
   return(X.cols(ac));    
 }
@@ -157,8 +157,8 @@ mat HMG::FullPrecision()
 // extract submatrix for computing marginal likelihood 
 mat HMG::Lambda(int j, int s)
 {
-  if(s == 0)
-    cout << "error - Lambda s==0" << endl;    
+  // if(s == 0)
+  //   cout << "error - Lambda s==0" << endl;    
   uvec ac = active_columns(s);  
   uvec scale(1); scale(0)=(uint)j;
   return diagmat( FullLambda.submat(scale,ac) );
@@ -330,32 +330,6 @@ std::vector<mat> HMG::prior_trans()
   }
   return output;
 }
-//std::vector<cube> HMG::prior_trans()
-//{
-//  std::vector<cube> output;    
-//  for (int j=0; j<J; j++) 
-//  { 
-//    cube M(tot_states, tot_states, (int)pow(2,j));    
-//    output.push_back(M);
-//  }
-//      
-//  for (int j=(J-1); j>=0; j--) 
-//  { //start from the leaves of the tree      
-//    for (int k = 0; k < (int)pow(2,j) ; k++) 
-//    {
-//          for(int s=0; s<tot_states; s++)
-//          {
-//              for(int t = 0; t<tot_states ; t++)
-//              {
-//                output.at(j).at(s, t, k) = prior_trans_elem(j, s, t);
-//              }                
-//          }     
-//    }
-//  }
-//  return output;
-//}
-
-
 
 // compute posterior transition probability for a given node
 double HMG::post_trans_elem(int j, int k, int s, int t)
@@ -394,7 +368,6 @@ std::vector<mat> HMG::post_state()
     {
       M.col(k) = PostTrans.at(j).slice(k).t() * output.at(j-1).col((int)k/2);
     }
-    // cout << M << endl << endl;
     output[j] = M;
   }
   
@@ -418,37 +391,12 @@ std::vector<mat> HMG::prior_state()
     {
       M.col(k) = PriorTrans.at(j).t() * output.at(j-1).col((int)k/2);
     }
-    // cout << M << endl << endl;
     output[j] = M;
   }
   
   return output;
   
 }    
-//std::vector<mat> HMG::prior_state()
-//{
-//  std::vector<mat> output;    
-//  
-//  mat M(tot_states,1);
-//  M.col(0) = PriorTrans.at(0).slice(0).t() * initial_state;
-//  output.push_back(M);
-//  
-//  for (int j=1; j<J; j++) 
-//  { 
-//    mat M(tot_states, (int)pow(2,j));    
-//    for (int k = 0; k < (int)pow(2,j) ; k++) 
-//    {
-//      M.col(k) = PriorTrans.at(j).slice(k).t() * output.at(j-1).col((int)k/2);
-//    }
-//    // cout << M << endl << endl;
-//    output.push_back(M);
-//  }
-//  
-//  return output;
-//  
-//}    
-
-
 
 // get marginal likelihood
 double HMG::get_marginal_likelihood()
@@ -656,6 +604,3 @@ cube HMG::get_post_sample_coeff(std::vector<cube> input)
   }
   return output;
 }
-
-
-

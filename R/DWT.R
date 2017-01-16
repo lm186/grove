@@ -10,16 +10,9 @@
 #' @param family The family of wavelets. The two most common options 
 #' are \code{DaubExPhase} and \code{DaubLeAsymm}.
 #' @details
-#' See function \code{wd} from \code{wavethresh} for more details.
+#' See function \code{wd} from package \code{wavethresh} for more details.
 #' @return A \code{DWT} object. This object is a list with the following 
 #' components: 
-#' @param C Vector of sets of successively smoothed data.
-#' @param D Matrix of sets of wavelet coefficients at different resolution 
-#' levels. Each row represents an observation.
-#' @param J The number of levels.
-#' @param filter.number The smoothness of the wavelet to use in the 
-#' decomposition. 
-#' @param family The family of wavelets. 
 #' @export
 #' @examples
 #' data <- GenerateSyntheticAnova(st.dev = 5, n.replicates = 10)

@@ -12,7 +12,7 @@
 #' @return A matrix each raw represents a draw from the reconstructed signal.
 #' @export
 #' @examples
-#' data <- DJ.EX(n = 512, noisy = TRUE, rsnr = 5)$doppler
+#' data <- wavethresh::DJ.EX(n = 512, noisy = TRUE, rsnr = 5)$doppler
 #' W <- DWT(data)
 #' ans <- Denoise(W)
 #' denoised.data <- InvDWT(ans)

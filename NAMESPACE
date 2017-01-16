@@ -1,4 +1,10 @@
 useDynLib(grove)
-import(RcppArmadillo)
 importFrom(Rcpp, evalCpp)
-exportPattern("^[[:alpha:]]+")
+import(wavethresh)
+export(DWT,
+       Denoise,
+       FAnova,
+       GenerateSyntheticAnova,
+       InvDWT,
+       PlotFun,
+       PlotStates)

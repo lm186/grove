@@ -30,7 +30,7 @@ This function carries out Bayesian wavelet denoising using the Normal
 Inverse Gamma Markov Tree method of Ma and Soriano (2016).
 }
 \examples{
-data <- DJ.EX(n = 512, noisy = TRUE, rsnr = 5)$doppler
+data <- wavethresh::DJ.EX(n = 512, noisy = TRUE, rsnr = 5)$doppler
 W <- DWT(data)
 ans <- Denoise(W)
 }

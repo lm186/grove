@@ -15,8 +15,6 @@
 #' lines(data$noisy.Y[ix, ], col = "blue")
 GenerateSyntheticAnova <- function(st.dev = 10, n.replicates = 5) {
   
-  require(wavethresh)
-  
   m <- 512
   # First factor
   factor.A.1 <- DJ.EX(n = m, noisy = FALSE)$doppler

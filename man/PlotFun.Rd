@@ -13,6 +13,9 @@ PlotFun(data, p = c(0.025, 0.5, 0.975), band.type = "pointwise",
 
 \item{p}{Vector with the lower, center and upper quantile.}
 
+\item{band.type}{Type of credible intervals. The options are:
+\code{pointwise}, \code{gloabl} or \code{global}.}
+
 \item{main}{The main title of the plot.}
 
 \item{col}{The color of the point estimate.}
@@ -32,7 +35,7 @@ A plot.
 This function plot the credible bounds of the denoised signal.
 }
 \examples{
-data <- DJ.EX(n = 512, noisy = TRUE, rsnr = 5)$doppler
+data <- wavethresh::DJ.EX(n = 512, noisy = TRUE, rsnr = 5)$doppler
 W <- DWT(data)
 ans <- Denoise(W)
 denoised.data <- InvDWT(ans)

@@ -8,7 +8,7 @@ PlotStates(grove.obj, block = "Intercept", legend = FALSE, main = NULL,
   prior = FALSE)
 }
 \arguments{
-\item{grove.obj}{}
+\item{grove.obj}{Output from function \code{FAnova}.}
 
 \item{block}{Which block to plot.}
 

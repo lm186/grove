@@ -2,7 +2,7 @@
 #'
 #' @description This function plot on a tree the state of the latent variables.
 #'
-#' @param grove.obj
+#' @param grove.obj Output from function \code{FAnova}.
 #' @param block Which block to plot.
 #' @param legend If \code{TRUE}, show legend. 
 #' @param main Main title.

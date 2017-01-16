@@ -45,7 +45,7 @@
                          gamma_par = c(gamma.rho.internal, gamma.kap.internal),
                          init_state = input$init_state,
                          nu = nu.internal, 
-                         sigma = sigma.internal, 
+                         sigma0 = sigma.internal, 
                          alpha = alpha.internal, 
                          beta = beta, 
                          transition_mode = input$transition.mode)
@@ -151,7 +151,7 @@
                                        rep(gamma.kappa, input$p_len - 1)),
                          init_state = input$init_state,
                          nu = nu.internal, 
-                         sigma = sigma.internal, 
+                         sigma0 = sigma.internal, 
                          alpha = alpha.internal, 
                          beta = beta, 
                          transition_mode = input$transition.mode)

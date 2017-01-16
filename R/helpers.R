@@ -97,7 +97,7 @@
                   gamma_par = gamma_par, 
                   init_state = init_state,
                   nu = nu_par, 
-                  sigma = sigma_par, 
+                  sigma0 = sigma_par, 
                   alpha = alpha_par, 
                   beta = beta_par, 
                   n_samp = n.samples, 
