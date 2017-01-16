@@ -21,7 +21,7 @@
 #' PlotFun(denoised.data)
 #' PlotFun(denoised.data, band.type = "both")
 
-plotFun <- function(data, 
+PlotFun <- function(data, 
                     p = c(0.025, .5, 0.975), 
                     band.type = "pointwise",
                     main = "", 

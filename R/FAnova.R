@@ -26,7 +26,7 @@
 #' denoised.data <- InvDWT(ans, x = c(0, 0, 1, 0))
 #' PlotFun(denoised.data)
 
-fANOVA <- function(W, 
+FAnova <- function(W, 
                    X, 
                    formula,                    
                    nu = 5, 

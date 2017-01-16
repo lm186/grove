@@ -20,7 +20,7 @@
 #' PlotStates(ans, block = "factorA")
 #' PlotStates(ans, block = "factorB")
 
-plotStates <- function(grove.obj, 
+PlotStates <- function(grove.obj, 
                        block = "Intercept", 
                        legend = FALSE, 
                        main = NULL, 
